@@ -1,10 +1,23 @@
 import express from "express";
+import {join} from "path";
+import connect from "./db/connect.js"
+import web from "./routes/web.js";
+
 const app = express();
 const port = process.env.PORT || '8080'
 
-import connect from "./db/connect.js"
+
 
 const DATABASE_URL = process.env.DATABASE_URL || "mongodb://0.0.0.0:27017";
+
+//Static files enabiling :-
+app.use(express.static(join(process.cwd(), "public")))
+
+//Set Templates Engine :-
+app.set("view engine","ejs");
+
+//Load Routes
+app.use("/student",web);
 
 //Database is connected :-
 connect(DATABASE_URL);
